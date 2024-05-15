@@ -17,7 +17,9 @@ export const createUser = async (user: CreateUserParams) => {
         const newUser = await User.create(user);
 
         if(!newUser) throw new Error('User not found');
+
         return JSON.parse(JSON.stringify(newUser));
+        
     } catch (error) {
         handleError(error);
     }
