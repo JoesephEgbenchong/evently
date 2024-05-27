@@ -6,8 +6,20 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
     
 ]); */
 
+const isPrivateRoute = createRouteMatcher([
+  '/events/create',
+]);
 
-export default clerkMiddleware();
+
+export default clerkMiddleware((auth, request) => {
+
+  if(isPrivateRoute(request)) {
+    auth().protect();
+  }
+
+});
+
+//export default clerkMiddleware();
 
 export const config = {
   matcher: ["/((?!.+.[w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
