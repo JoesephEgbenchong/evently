@@ -9,6 +9,11 @@ import Category from "../database/models/category.model";
 import { revalidatePath } from "next/cache";
 
 
+const getCategoryByName = async (name: string) => {
+    return Category.findOne({ name: { $regex: name, $options: 'i' } })
+  }
+
+
 const populateEvent = async (query: any) => {
     return query
     .populate({ path: 'organizer', model: User, select: '_id firstName lastName ' })
@@ -59,7 +64,11 @@ export const getAllEvents = async ({query, limit = 6, page, category }: GetAllEv
     try {
         await connectToDatabase();
 
-        const conditions = {};
+        const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
+        const categoryCondition = category ? await getCategoryByName(category) : null
+        const conditions = {
+        $and: [titleCondition, categoryCondition ? { category: categoryCondition._id } : {}],
+        }
 
         const eventsQuery = Event.find(conditions)
             .sort({ createdAt: 'desc'})
