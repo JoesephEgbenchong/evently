@@ -1,11 +1,13 @@
 import CategoryFilter from "@/components/shared/CategoryFilter";
 import Collection from "@/components/shared/Collection";
 import Search from "@/components/shared/Search";
+import { CardSkeleton } from "@/components/shared/skeletons";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -60,14 +62,15 @@ export default async function Home({ searchParams }: SearchParamProps) {
         </div>
 
         <Collection 
-          data={ events?.data }
-          emptyTitle="No Events Found"
-          emptyStateSubtext="Come back later"
-          collectionType="All_Events"
-          limit={6}
-          page={page}
-          totalPages={events?.totalPages}
-        />
+            data={ events?.data }
+            emptyTitle="No Events Found"
+            emptyStateSubtext="Come back later"
+            collectionType="All_Events"
+            limit={6}
+            page={page}
+            totalPages={events?.totalPages}
+          />
+        
       </section>
     </>
   );

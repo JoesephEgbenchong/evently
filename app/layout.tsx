@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import "./globals.css";
 
@@ -26,7 +27,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={poppins.variable}>{children}</body>
+        <body className={poppins.variable}>
+          {children}
+          <SpeedInsights />
+        </body>
       </html>
     </ClerkProvider>
   );
