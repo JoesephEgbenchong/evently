@@ -10,10 +10,11 @@ import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 const Search = ({ placeholder = 'Search title...' }: { placeholder?: string }) => {
     const [query, setQuery] = useState('');
     const router = useRouter();
-    const searchParams = useParams();
+    //const searchParams = useParams();
 
     useEffect(() => {
       const delayDebounceFn = setTimeout(() =>{
+        const searchParams = new URLSearchParams(window.location.search);
         let newUrl = '';
 
         if(query) {
@@ -34,7 +35,16 @@ const Search = ({ placeholder = 'Search title...' }: { placeholder?: string }) =
         return () => clearTimeout(delayDebounceFn);
       }, 300)
     
-    }, [query, searchParams, router])
+    }, [query]);
+
+
+    useEffect(() =>{
+      //update query state from URL query parameter when component mounts
+      const searchParams = new URLSearchParams(window.location.search);
+      const initialQuery = searchParams.get('query') || '';
+      setQuery(initialQuery);
+    }, []);
+    
     
 
   return (

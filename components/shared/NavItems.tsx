@@ -20,7 +20,9 @@ const NavItems = () => {
                 ${isActive && 'text-primary-500'}
                 flex-center p-medium-16 whitespace-nowrap hover:text-gray-500`}
                 >
-                    <Link href={link.route}>{link.label}</Link>
+                    <Link href={link.route}>
+                        {link.label}
+                    </Link>
                 </li>
             )
         })}
